@@ -47,7 +47,7 @@ resource "aws_route" "default_route" {
 resource "aws_route_table_association" "public_rt_association" {
   for_each       = aws_subnet.my_public_subnet
   route_table_id = aws_route_table.public_rt.id
-  subnet_id      = each.id
+  subnet_id      = each.value.id
 }
 
 resource "aws_subnet" "my_private_subnet" {
@@ -74,7 +74,7 @@ resource "aws_route" "nat_route" {
 resource "aws_route_table_association" "private_rt_association" {
   for_each       = aws_subnet.my_private_subnet
   route_table_id = aws_route_table.private_rt.id
-  subnet_id      = each.id
+  subnet_id      = each.value.id
 }
 
 # Application Load Balancer (ALB) configuration
@@ -232,7 +232,7 @@ resource "aws_route53_zone" "public_zone" {
 
 resource "aws_route53_record" "www" {
   count   = var.enable_dns ? 1 : 0
-  zone_id = aws_route53_zone.public_zone.zone_id
+  zone_id = aws_route53_zone.public_zone[0].zone_id
   name    = var.hostname
   type    = "A"
 
