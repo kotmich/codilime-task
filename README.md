@@ -22,13 +22,19 @@ This project uses Terraform to deploy a containerized web application (based on 
 - Git
 
 ### Steps
+Local:
 1. Clone the repository (git clone)
 2. Update backend s3 bucket information for terraform state file hosting (backend.tf)
 3. Initialize and deploy with Terraform
     - terraform init
     - terraform apply
+Make sure your AWS credentials are configured! (aws configure)
 
-Make sure your AWS credentials are configured!
+GitHub:
+1. Clone the repository (git clone)
+2. Update backend s3 bucket information for terraform state file hosting (backend.tf)
+3. Update repository secrets to store AWS Access Key ID and Secret Access Key
+4. Push the local branch to your GitHub repository
 
 ## Security Improvements
 
