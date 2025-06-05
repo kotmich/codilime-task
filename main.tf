@@ -72,9 +72,9 @@ resource "aws_route" "nat_route" {
 }
 
 resource "aws_route_table_association" "private_rt_association" {
-  for_each       = aws_subnet.my_private_subnet
-  route_table_id = aws_route_table.private_rt.id
-  subnet_id      = each.value.id
+  count          = 2
+  route_table_id = aws_route_table.private_rt[count.index].id
+  subnet_id      = aws_subnet.my_private_subnet[count.index].id
 }
 
 # Application Load Balancer (ALB) configuration
