@@ -9,16 +9,15 @@ with Diagram("HA nginx web app behind ALB", show=False, filename="aws_architectu
     internet = Node("Internet")
 
     with Cluster("VPC"):
-        igw = InternetGateway("Internet Gateway")
+        igw = InternetGateway("IGW")
 
         with Cluster("Public Subnets"):
             alb = ELB("ALB")
             nat = NATGateway("NAT GW")
 
-        with Cluster("Private Subnets (AZ-a / AZ-b)"):
+        with Cluster("Private Subnets"):
             ecs_tasks = [ECS("Fargate Task 1"),
                          ECS("Fargate Task 2")]
 
-    # Connections
     internet >> Edge(label="HTTP") >> igw >> alb >> ecs_tasks
     ecs_tasks >> Edge(label="Outbound") >> nat >> igw >> internet
