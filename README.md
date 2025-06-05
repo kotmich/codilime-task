@@ -23,7 +23,8 @@ This project uses Terraform to deploy a containerized web application (based on 
 
 ### Steps
 1. Clone the repository (git clone)
-2. Initialize and deploy with Terraform
+2. Update backend s3 bucket information for terraform state file hosting (backend.tf)
+3. Initialize and deploy with Terraform
     - terraform init
     - terraform apply
 
