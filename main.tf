@@ -45,8 +45,9 @@ resource "aws_route" "default_route" {
 }
 
 resource "aws_route_table_association" "public_rt_association" {
+  count          = 2
   route_table_id = aws_route_table.public_rt.id
-  subnet_id      = aws_subnet.my_public_subnet[*].id
+  subnet_id      = aws_subnet.my_public_subnet[count.index].id
 }
 
 resource "aws_subnet" "my_private_subnet" {
