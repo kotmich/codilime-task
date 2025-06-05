@@ -10,7 +10,7 @@ resource "aws_vpc" "my_vpc" {
 }
 
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.my_vpc
+  vpc_id = aws_vpc.my_vpc.id
 }
 
 resource "aws_nat_gateway" "nat_gw" {
@@ -45,9 +45,8 @@ resource "aws_route" "default_route" {
 }
 
 resource "aws_route_table_association" "public_rt_association" {
-  for_each       = aws_subnet.my_public_subnet
   route_table_id = aws_route_table.public_rt.id
-  subnet_id      = each.value.id
+  subnet_id      = aws_subnet.my_public_subnet[*].id
 }
 
 resource "aws_subnet" "my_private_subnet" {
