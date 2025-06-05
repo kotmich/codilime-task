@@ -20,7 +20,7 @@ resource "aws_nat_gateway" "nat_gw" {
 }
 
 resource "aws_eip" "nat_eip" {
-  count = 2
+  count  = 2
   domain = "vpc"
 }
 
@@ -37,11 +37,11 @@ resource "aws_route_table" "public_rt" {
 }
 
 resource "aws_route" "default_route" {
-  destination_cidr_block =  "0.0.0.0/0"
+  destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.igw.id
   route_table_id         = aws_route_table.public_rt.id
 
-  depends_on = [ aws_internet_gateway.igw ]
+  depends_on = [aws_internet_gateway.igw]
 }
 
 resource "aws_route_table_association" "public_rt_association" {
@@ -58,8 +58,8 @@ resource "aws_subnet" "my_private_subnet" {
 }
 
 resource "aws_route_table" "private_rt" {
-  count    = 2
-  vpc_id   = aws_vpc.my_vpc.id
+  count  = 2
+  vpc_id = aws_vpc.my_vpc.id
 }
 
 resource "aws_route" "nat_route" {
@@ -68,7 +68,7 @@ resource "aws_route" "nat_route" {
   nat_gateway_id         = aws_nat_gateway.nat_gw[count.index].id
   route_table_id         = aws_route_table.private_rt[count.index].id
 
-  depends_on = [ aws_nat_gateway.nat_gw ]
+  depends_on = [aws_nat_gateway.nat_gw]
 }
 
 resource "aws_route_table_association" "private_rt_association" {
@@ -101,7 +101,7 @@ resource "aws_lb" "lb" {
   name               = "my-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [ aws_security_group.alb_sg.id ]
+  security_groups    = [aws_security_group.alb_sg.id]
   subnets            = aws_subnet.my_public_subnet[*].id
 }
 
@@ -163,8 +163,8 @@ resource "aws_iam_role" "ecs_task_execution_role" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action    = "sts:AssumeRole"
-        Effect    = "Allow"
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
         Principal = {
           Service = "ecs-tasks.amazonaws.com"
         }
@@ -188,8 +188,8 @@ resource "aws_ecs_task_definition" "ecs_task" {
 
   container_definitions = jsonencode([
     {
-      name      = "hello"
-      image     = "nginxdemos/hello"
+      name  = "hello"
+      image = "nginxdemos/hello"
       portMappings = [
         {
           containerPort = 80

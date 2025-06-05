@@ -1,7 +1,7 @@
 variable "enable_dns" {
   description = "Enable public DNS domain"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "public_domain" {
